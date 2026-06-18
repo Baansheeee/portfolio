@@ -1,117 +1,125 @@
 'use client';
 
 import { motion } from 'framer-motion'
-import { FaArrowRight } from 'react-icons/fa'
 import Image from 'next/image'
+import {FaLinkedinIn, FaGithub, FaEnvelope } from 'react-icons/fa'
 
 export default function Hero() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  }
+  const socialLinks = [
+    { icon: FaGithub, href: 'https://github.com/Baansheeee' },
+    { icon: FaLinkedinIn, href: 'https://www.linkedin.com/in/shayan-ahmed-30173b325' },
+    { icon: FaEnvelope, href: "mailto:shayanahmed675432@gmail.com" },
+  ]
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: 'easeOut' },
-    },
+  const stats = [
+    { number: '2+', label: 'Experiences' },
+    { number: '5+', label: 'Project done' },
+    { number: '3+', label: 'Happy Clients' },
+  ]
+
+  const scrollToContact = () => {
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
-    <section className="min-h-screen flex items-center justify-center pt-20 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background via-background to-slate-950/30">
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="text-center max-w-5xl w-full"
-      >
-        {/* Profile Image */}
-        <motion.div
-          variants={itemVariants}
-          className="mb-12 flex justify-center"
+    <section id="home" className="relative w-full min-h-screen pt-28 pb-16 flex items-center bg-[#18181b]">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+        
+        {/* LEFT COLUMN: Text Content */}
+        <motion.div 
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="flex flex-col items-start z-10"
         >
-          <motion.div
-            whileHover={{ scale: 1.08, boxShadow: '0 0 60px rgba(59, 130, 246, 0.4)' }}
-            transition={{ duration: 0.3 }}
-            className="w-32 h-32 md:w-40 md:h-40 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 p-0.5 shadow-2xl shadow-blue-500/20 relative"
+          <h3 className="text-zinc-400 text-lg md:text-xl font-medium mb-1">
+            Hi I am
+          </h3>
+          <h2 className="text-zinc-100 text-2xl md:text-3xl font-semibold mb-2">
+            Shayan Ahmed
+          </h2>
+          <h1 className="text-orange-500 text-5xl md:text-7xl font-bold tracking-tight mb-8">
+            Full-Stack Developer
+          </h1>
+
+          {/* Social Icons */}
+          <div className="flex gap-4 mb-10">
+            {socialLinks.map((social, idx) => {
+              const Icon = social.icon
+              return (
+                <motion.a
+                  key={idx}
+                  whileHover={{ scale: 1.1, backgroundColor: 'rgba(249, 115, 22, 0.1)', borderColor: '#f97316', color: '#f97316' }}
+                  whileTap={{ scale: 0.95 }}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full border border-zinc-700 flex items-center justify-center text-zinc-400 transition-colors"
+                >
+                  <Icon size={16} />
+                </motion.a>
+              )
+            })}
+          </div>
+
+          {/* Buttons */}
+          <div className="flex flex-wrap gap-4 mb-14">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={scrollToContact}
+              className="px-8 py-3 bg-orange-600 hover:bg-orange-500 text-white font-medium rounded text-sm transition-colors shadow-[0_4px_14px_0_rgba(234,88,12,0.39)]"
+            >
+              Hire Me
+            </motion.button>
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              href="/resume.pdf"
+              target="_blank"
+              className="px-8 py-3 bg-transparent border border-zinc-600 hover:border-zinc-400 text-zinc-300 font-medium rounded text-sm transition-colors"
+            >
+              Download CV
+            </motion.a>
+          </div>
+
+          {/* Stats Box */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            className="bg-[#222222] border border-zinc-800 rounded-lg p-6 w-full max-w-md grid grid-cols-3 gap-4"
           >
-            <Image
-              src="/me.jpeg"
-              alt="Shayan Ahmed"
-              width={160}
-              height={160}
-              className="rounded-[15px] object-cover w-full h-full"
-              priority
-            />
+            {stats.map((stat, idx) => (
+              <div key={idx} className={`flex flex-col ${idx !== 2 ? 'border-r border-zinc-700' : ''}`}>
+                <span className="text-orange-500 font-bold text-xl mb-1">{stat.number}</span>
+                <span className="text-zinc-400 text-xs font-medium pr-2">{stat.label}</span>
+              </div>
+            ))}
           </motion.div>
         </motion.div>
 
-        {/* Badge */}
-        <motion.div variants={itemVariants} className="mb-6 inline-block">
-          <div className="px-4 py-2 rounded-full border border-blue-500/30 bg-blue-500/5 backdrop-blur-sm">
-            <p className="text-sm font-medium text-blue-400">✨ Full-Stack Developer & AI Enthusiast</p>
+        {/* RIGHT COLUMN: Image */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="relative flex justify-center lg:justify-end items-center h-full min-h-[400px] lg:min-h-[600px] z-0"
+        >
+          {/* Profile Image Overlay (Circular) */}
+          <div className="relative z-10 w-[350px] h-[350px] md:w-[500px] md:h-[500px] flex items-center justify-center overflow-hidden rounded-full bg-[#202022] shadow-2xl">
+            <Image
+              src="/me.png"
+              alt="Shayan Ahmed"
+              width={500}
+              height={500}
+              className="object-cover w-full h-full"
+              priority
+            />
           </div>
         </motion.div>
 
-        {/* Name */}
-        <motion.h1
-          variants={itemVariants}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight"
-        >
-          <span className="text-white">Shayan</span>{' '}
-          <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Ahmed</span>
-        </motion.h1>
-
-        {/* Description */}
-        <motion.p
-          variants={itemVariants}
-          className="text-lg sm:text-xl text-slate-300 mb-12 leading-relaxed max-w-2xl mx-auto font-light"
-        >
-          Crafting scalable web applications with modern tech stack. Passionate about clean code, performance, and creating seamless user experiences.
-        </motion.p>
-
-        {/* CTA Buttons */}
-        <motion.div
-          variants={itemVariants}
-          className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
-        >
-          <motion.button
-            whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(59, 130, 246, 0.3)' }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold flex items-center justify-center gap-2 hover:shadow-lg transition-all"
-          >
-            View My Work <FaArrowRight size={18} />
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05, backgroundColor: 'rgba(59, 130, 246, 0.1)' }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 border-2 border-blue-400/50 text-white rounded-xl font-semibold hover:border-blue-400 transition-all"
-          >
-            Get In Touch
-          </motion.button>
-        </motion.div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2.5, repeat: Infinity }}
-          className="flex justify-center"
-        >
-          <div className="p-2 rounded-full border border-blue-400/30">
-            <svg className="w-6 h-6 text-blue-400" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
-              <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-            </svg>
-          </div>
-        </motion.div>
-      </motion.div>
+      </div>
     </section>
   )
 }

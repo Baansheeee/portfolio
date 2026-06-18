@@ -1,61 +1,44 @@
 'use client';
 
 import { motion } from 'framer-motion'
-import { FaCode, FaRocket, FaLightbulb, FaCheck } from 'react-icons/fa'
+import { FaBriefcase, FaCalendarAlt, FaCheck } from 'react-icons/fa'
 
 export default function Experience() {
   const experiences = [
     {
-      title: 'Self-Directed Full-Stack Developer',
-      company: 'Continuous Learning & Projects',
-      period: 'Present',
-      type: 'Professional Development',
+      title: 'MERN Stack Developer (Internship)',
+      company: 'HHTECHHUB',
+      period: 'April 2026 – Present',
+      type: 'Internship',
       highlights: [
-        'Developing production-grade applications using MERN stack',
-        'Implementing modern UI/UX patterns with animations',
-        'Exploring ML/AI integration in web applications',
-        'Building microservices architecture with Docker'
+        'Developed and maintained full-stack MERN applications using MongoDB, Express.js, React.js, and Node.js',
+        'Built e-commerce platforms with user authentication, product management, shopping cart, order processing, and secure payment integration',
+        'Designed and integrated RESTful APIs, managed database operations',
+        'Collaborated on frontend and backend to ensure high performance and seamless user experience',
       ],
-      skills: ['React', 'Node.js', 'MongoDB', 'TypeScript', 'AWS', 'Docker'],
-      icon: FaCode
+      skills: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'REST API', 'Payment Integration'],
+      current: true,
     },
     {
-      title: 'Web Development',
-      company: 'Academic & Personal Projects',
-      period: '2023 - Present',
-      type: 'Project-Based Experience',
+      title: 'ERP System Developer',
+      company: 'Freelancing Project',
+      period: 'Summer 2025',
+      type: 'Freelance',
       highlights: [
-        'Built full-featured e-commerce platform (ShopSphere)',
-        'Created peer-to-peer trading platform with authentication',
-        'Developed AI-powered cloud management platform',
-        'Implemented REST APIs with secure authentication'
+        'Developed a web-based ERP system to streamline HR, Finance, Sales, Inventory, and Purchasing Management',
+        'Implemented role-based authentication, reporting dashboards, and scheduling tools',
+        'Built dynamic data tables with search and filtering capabilities',
+        'Used React (Vite), JavaScript, Context API, and component-based architecture with responsive UI',
       ],
-      skills: ['React', 'Express.js', 'MongoDB', 'Tailwind CSS', 'JWT'],
-      icon: FaRocket
+      skills: ['React (Vite)', 'JavaScript', 'Context API', 'RBAC', 'Dashboard', 'ERP'],
+      current: false,
     },
-    {
-      title: 'Machine Learning Exploration',
-      company: 'Research & Learning',
-      period: '2023 - Present',
-      type: 'Technical Learning',
-      highlights: [
-        'Studying NLP and Transformers for AI applications',
-        'Working with TensorFlow and PyTorch frameworks',
-        'Implementing CNN and RNN models',
-        'Analyzing complex datasets and creating predictive models'
-      ],
-      skills: ['Python', 'TensorFlow', 'PyTorch', 'NLP', 'CNN', 'RNN'],
-      icon: FaLightbulb
-    }
   ]
 
   const containerVariants = {
-    hidden: { opacity: 0 },
+    hidden: {},
     visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.12,
-      },
+      transition: { staggerChildren: 0.2 },
     },
   }
 
@@ -64,125 +47,109 @@ export default function Experience() {
     visible: {
       opacity: 1,
       x: 0,
-      transition: { duration: 0.6 },
+      transition: { duration: 0.6, ease: 'easeOut' },
     },
   }
 
-  const StatCard = ({ title, description, color }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -4 }}
-      className={`bg-gradient-to-br ${color} rounded-xl p-6 border border-slate-700/50 hover:border-opacity-100 transition-all`}
-    >
-      <h4 className="text-lg font-bold text-white mb-2">{title}</h4>
-      <p className="text-sm text-slate-300">{description}</p>
-    </motion.div>
-  )
-
   return (
-    <section id="experience" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background via-background to-slate-950/30">
+    <section id="experience" className="py-24 px-6 md:px-12 w-full bg-[#18181b]">
       <div className="max-w-6xl mx-auto">
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-100px" }}
           className="mb-16"
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white tracking-tight">
-            Experience & Background
+          <span className="text-orange-500 text-sm font-mono font-medium tracking-wider uppercase mb-3 block">
+            04 — Experience
+          </span>
+          <h2 className="text-4xl md:text-5xl font-bold text-zinc-100 tracking-tight mb-4">
+            Professional <span className="text-orange-500">Journey</span>
           </h2>
-          <p className="text-lg text-slate-400">My professional journey and technical growth</p>
+          <p className="text-zinc-400 text-lg max-w-2xl">
+            Real-world experience building production applications and enterprise solutions.
+          </p>
         </motion.div>
 
+        {/* Timeline */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          className="space-y-6 mb-16"
+          viewport={{ once: true, margin: "-100px" }}
+          className="relative"
         >
-          {experiences.map((exp, idx) => {
-            const IconComponent = exp.icon
-            return (
-              <motion.div
-                key={idx}
-                variants={itemVariants}
-                whileHover={{ x: 4, boxShadow: '0 10px 30px rgba(59, 130, 246, 0.1)' }}
-                className="relative pl-8 border-l-2 border-blue-400/50 hover:border-blue-400 transition-all"
-              >
+          {/* Timeline Line */}
+          <div className="absolute left-[15px] md:left-[19px] top-0 bottom-0 w-[2px] bg-zinc-800" />
+
+          <div className="space-y-12">
+            {experiences.map((exp, idx) => (
+              <motion.div key={idx} variants={itemVariants} className="relative pl-12 md:pl-16">
+                
                 {/* Timeline Dot */}
-                <motion.div
-                  whileHover={{ scale: 1.3 }}
-                  className="absolute left-[-11px] top-6 w-5 h-5 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 shadow-lg shadow-blue-500/30"
-                />
+                <div className={`absolute left-0 md:left-[3px] top-8 w-8 h-8 md:w-9 md:h-9 rounded-full border-4 border-[#18181b] flex items-center justify-center z-10 transition-colors duration-300 ${exp.current ? 'bg-orange-500 text-white' : 'bg-zinc-700 text-zinc-400 hover:bg-orange-500 hover:text-white'}`}>
+                  <FaBriefcase size={12} />
+                  {exp.current && (
+                    <div className="absolute inset-0 rounded-full bg-orange-500/30 animate-ping" />
+                  )}
+                </div>
 
                 {/* Card */}
-                <div className="bg-gradient-to-br from-slate-800/40 to-slate-900/20 rounded-xl p-7 border border-slate-700/50 hover:border-blue-500/50 transition-all backdrop-blur-sm">
+                <div className="dark-card p-8 group">
                   {/* Header */}
-                  <div className="flex items-start justify-between mb-4 gap-4">
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-bold text-white mb-1">{exp.title}</h3>
-                      <p className="text-blue-400 font-semibold text-lg">{exp.company}</p>
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
+                    <div>
+                      <h3 className="text-xl md:text-2xl font-bold text-zinc-100 group-hover:text-orange-500 transition-colors">
+                        {exp.title}
+                      </h3>
+                      <p className="text-orange-500 font-semibold mt-1">{exp.company}</p>
                     </div>
-                    <div className="text-3xl flex-shrink-0 opacity-60 group-hover:opacity-100 transition-opacity">
-                      <IconComponent />
+                    <div className="flex items-center gap-3 shrink-0">
+                      <span className="text-[11px] px-3 py-1 rounded bg-zinc-800 text-zinc-300 border border-zinc-700 font-semibold uppercase tracking-wider">
+                        {exp.type}
+                      </span>
+                      {exp.current && (
+                        <span className="text-[11px] px-3 py-1 rounded bg-orange-500/10 text-orange-500 border border-orange-500/20 font-semibold uppercase tracking-wider">
+                          Current
+                        </span>
+                      )}
                     </div>
                   </div>
 
-                  {/* Period & Type */}
-                  <div className="flex flex-wrap items-center gap-3 mb-5 text-sm">
-                    <span className="text-slate-400 font-medium">{exp.period}</span>
-                    <span className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs font-medium border border-blue-400/50">
-                      {exp.type}
-                    </span>
+                  {/* Period */}
+                  <div className="flex items-center gap-2 text-sm text-zinc-500 mb-6">
+                    <FaCalendarAlt size={14} />
+                    <span>{exp.period}</span>
                   </div>
 
                   {/* Highlights */}
-                  <div className="space-y-2 mb-5">
+                  <ul className="space-y-3 mb-8">
                     {exp.highlights.map((highlight, hIdx) => (
-                      <div key={hIdx} className="flex items-start gap-3 text-slate-300 text-sm">
-                        <FaCheck className="text-blue-400 flex-shrink-0 mt-1" size={14} />
-                        <span>{highlight}</span>
-                      </div>
+                      <li key={hIdx} className="flex items-start gap-3 text-zinc-400 text-sm">
+                        <FaCheck className="text-orange-500 shrink-0 mt-1" size={12} />
+                        <span className="leading-relaxed">{highlight}</span>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
 
                   {/* Skills */}
-                  <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-700/50">
+                  <div className="flex flex-wrap gap-2 pt-6 border-t border-zinc-800/50">
                     {exp.skills.map((skill, sIdx) => (
-                      <motion.span
+                      <span
                         key={sIdx}
-                        whileHover={{ scale: 1.08 }}
-                        className="px-3 py-1.5 bg-slate-700/40 border border-slate-600/50 rounded-lg text-xs text-slate-300 font-medium hover:border-blue-400/50 transition-colors cursor-default"
+                        className="px-2.5 py-1 rounded bg-zinc-800/50 text-[11px] font-medium text-zinc-400 border border-zinc-700/50"
                       >
                         {skill}
-                      </motion.span>
+                      </span>
                     ))}
                   </div>
                 </div>
               </motion.div>
-            )
-          })}
+            ))}
+          </div>
         </motion.div>
-
-        {/* Summary Stats */}
-        <div className="grid md:grid-cols-3 gap-6">
-          <StatCard
-            title="Technical Foundation"
-            description="Strong grasp of Data Structures, Algorithms, DBMS, and OOP principles"
-            color="from-blue-500/15 to-blue-400/5 border-blue-400/30"
-          />
-          <StatCard
-            title="Full-Stack Expertise"
-            description="End-to-end solutions using modern web technologies with scalability focus"
-            color="from-purple-500/15 to-purple-400/5 border-purple-400/30"
-          />
-          <StatCard
-            title="Continuous Growth"
-            description="Actively exploring AI/ML, Cloud Architecture, and DevOps practices"
-            color="from-pink-500/15 to-pink-400/5 border-pink-400/30"
-          />
-        </div>
       </div>
     </section>
   )

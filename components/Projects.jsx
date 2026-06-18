@@ -1,158 +1,189 @@
 'use client';
 
 import { motion } from 'framer-motion'
-import { FaGithub, FaExternalLinkAlt, FaArrowRight } from 'react-icons/fa'
+import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 
 export default function Projects() {
   const projects = [
     {
-      title: 'AWSOME - AI Cloud Management',
-      description: 'AI-powered platform for designing and managing AWS infrastructure. Features IaC generation, real-time cost estimation, and compliance checking.',
-      tags: ['React', 'Node.js', 'MongoDB', 'AWS', 'AI/ML'],
-      outcome: 'Reduced deployment time by 40%',
-      github: '#',
-      live: '#'
+      title: 'AWSOME',
+      subtitle: 'AWS Optimization & Management Engine',
+      description:
+        'AI-powered cloud management platform to simplify design, deployment, and management of AWS infrastructure. Automated architecture generation from natural language, producing Infrastructure-as-Code (Terraform).',
+      highlights: [
+        'One-click deployment with real-time cost estimation',
+        'Performance monitoring & compliance validation',
+      ],
+      tags: ['React', 'Node.js', 'AWS', 'Terraform', 'AI'],
+      github: null,
+      live: "https://awsome.mugheesulhassan.dev/",
     },
     {
-      title: 'ShopSphere - E-Commerce Platform',
-      description: 'Full-featured e-commerce solution with product management, shopping cart, and admin dashboard. Real-time inventory management.',
-      tags: ['React', 'MongoDB', 'Express', 'Tailwind'],
-      outcome: 'Handles 1000+ products smoothly',
-      github: '#',
-      live: '#'
+      title: 'Step & Style',
+      subtitle: 'Full-Stack E-Commerce — Live',
+      description:
+        'Full-stack e-commerce web application providing a complete online shopping experience with secure payment processing via Stripe.',
+      highlights: [
+        'Stripe payment integration with secure checkout',
+        'Dynamic & responsive UI with Recharts data visualization',
+      ],
+      tags: ['Next.js', 'React', 'Tailwind', 'MongoDB', 'Prisma', 'Stripe'],
+      github: 'https://github.com/Baansheeee/step_any_style.git',
+      live: 'https://www.stepandstyl.com',
     },
     {
-      title: 'TaxSwap - Device Trading Platform',
-      description: 'Peer-to-peer trading platform for devices with secure authentication, price estimation, and admin verification system.',
-      tags: ['React', 'Node.js', 'MongoDB', 'JWT'],
-      outcome: 'Verified 500+ device listings',
-      github: '#',
-      live: '#'
+      title: 'ShopSphere',
+      subtitle: 'E-Commerce Platform',
+      description:
+        'Full-stack e-commerce web app with CRUD operations for products, orders, and users. Features separate User and Admin dashboards with role-based access control.',
+      highlights: [
+        'React Context API for global state management',
+        'Admin panel to add/manage products and view orders',
+      ],
+      tags: ['React', 'MongoDB', 'Tailwind CSS', 'RESTFul APIs'],
+      github: 'https://github.com/Baansheeee/Shop-Sphere.git',
+      live: null,
     },
     {
-      title: 'OCHI - Animated Portfolio',
-      description: 'Modern animated portfolio website with smooth scroll interactions and responsive design. Achieved 95+ Lighthouse score.',
-      tags: ['React', 'Framer Motion', 'Tailwind'],
-      outcome: '60fps animations throughout',
-      github: '#',
-      live: '#'
-    }
+      title: 'TaxSwap',
+      subtitle: 'Device Resale Platform',
+      description:
+        'Device resale platform enabling users to sell smartphones, tablets, and laptops by submitting detailed device information. Features automated price estimation.',
+      highlights: [
+        'Admin review workflow for condition verification',
+        'Secure transaction flows with identity verification',
+      ],
+      tags: ['React', 'Node.js', 'MongoDB', 'Express', 'JWT'],
+      github: 'https://github.com/Baansheeee/Compete.git',
+      live: null,
+    },
+    {
+      title: 'TaskHive',
+      subtitle: 'Flutter Task Management',
+      description:
+        'Flutter-based task management application with task categorization, priorities, analytics dashboard, notifications, and AI chatbot integration.',
+      highlights: [
+        'Firebase Auth, Firestore, Realtime DB, Storage',
+        'AI chatbot & local notification system',
+      ],
+      tags: ['Flutter', 'Dart', 'Firebase', 'Provider'],
+      github: 'https://github.com/Baansheeee/TaskHive.git',
+      live: null,
+    },
   ]
 
   const containerVariants = {
-    hidden: { opacity: 0 },
+    hidden: {},
     visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.12,
-      },
+      transition: { staggerChildren: 0.15 },
     },
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6 },
+      transition: { duration: 0.6, ease: 'easeOut' },
     },
   }
 
   return (
-    <section id="projects" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background via-background to-slate-950/30">
+    <section id="projects" className="py-24 px-6 md:px-12 w-full bg-[#18181b]">
       <div className="max-w-6xl mx-auto">
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-100px" }}
           className="mb-16"
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white tracking-tight">
-            Featured Projects
+          <span className="text-orange-500 text-sm font-mono font-medium tracking-wider uppercase mb-3 block">
+            03 — Portfolio
+          </span>
+          <h2 className="text-4xl md:text-5xl font-bold text-zinc-100 tracking-tight mb-4">
+            Featured <span className="text-orange-500">Work</span>
           </h2>
-          <p className="text-lg text-slate-400">Showcasing my latest work and technical expertise</p>
+          <p className="text-zinc-400 text-lg max-w-2xl">
+            A showcase of projects that demonstrate my technical range and problem-solving approach.
+          </p>
         </motion.div>
 
+        {/* Projects Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          className="grid gap-6"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid lg:grid-cols-2 gap-8"
         >
           {projects.map((project, idx) => (
-            <motion.div
-              key={idx}
-              variants={itemVariants}
-              whileHover={{ y: -4, boxShadow: '0 20px 40px rgba(59, 130, 246, 0.15)' }}
-              className="group relative bg-gradient-to-br from-slate-800/40 to-slate-900/20 border border-slate-700/50 rounded-2xl p-8 md:p-10 overflow-hidden hover:border-blue-500/50 transition-all duration-300"
-            >
-              {/* Background glow on hover */}
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/5 group-hover:via-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500"></div>
+            <motion.div key={idx} variants={itemVariants} className="dark-card p-8 flex flex-col h-full group relative overflow-hidden">
+              
+              {/* Subtle hover background gradient */}
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-              <div className="relative z-10">
+              <div className="relative z-10 flex-1">
                 {/* Header */}
-                <div className="flex items-start justify-between mb-6 gap-4">
-                  <div className="flex-1">
-                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors">
-                      {project.title}
-                    </h3>
+                <div className="flex items-start justify-between mb-4 gap-4">
+                  <div>
+                    <div className="flex items-center gap-3 mb-1">
+                      <h3 className="text-2xl font-bold text-zinc-100 group-hover:text-orange-500 transition-colors">
+                        {project.title}
+                      </h3>
+                      {project.live && (
+                        <span className="px-2 py-0.5 bg-emerald-500/10 text-emerald-500 text-[10px] font-bold uppercase tracking-wider rounded border border-emerald-500/20">
+                          Live
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-sm text-zinc-500 font-medium">{project.subtitle}</p>
                   </div>
-                  <div className="flex gap-3 flex-shrink-0">
-                    <motion.a
-                      whileHover={{ scale: 1.1, backgroundColor: 'rgba(59, 130, 246, 0.2)' }}
-                      href={project.github}
-                      className="p-3 bg-slate-700/50 hover:bg-blue-500/20 rounded-lg transition-all"
-                    >
-                      <FaGithub size={18} className="text-slate-300" />
-                    </motion.a>
-                    <motion.a
-                      whileHover={{ scale: 1.1, backgroundColor: 'rgba(168, 85, 247, 0.2)' }}
-                      href={project.live}
-                      className="p-3 bg-slate-700/50 hover:bg-purple-500/20 rounded-lg transition-all"
-                    >
-                      <FaExternalLinkAlt size={18} className="text-slate-300" />
-                    </motion.a>
+
+                  <div className="flex gap-2 shrink-0">
+                    {project.github && (
+                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="p-2 text-zinc-400 hover:text-white bg-zinc-800 rounded transition-colors">
+                        <FaGithub size={18} />
+                      </a>
+                    )}
+                    {project.live && (
+                      <a href={project.live} target="_blank" rel="noopener noreferrer" className="p-2 text-zinc-400 hover:text-orange-500 bg-zinc-800 rounded transition-colors">
+                        <FaExternalLinkAlt size={16} />
+                      </a>
+                    )}
                   </div>
                 </div>
 
                 {/* Description */}
-                <p className="text-slate-300 mb-6 leading-relaxed text-base md:text-lg">
+                <p className="text-zinc-400 mb-6 text-[15px] leading-relaxed">
                   {project.description}
                 </p>
 
-                {/* Outcome */}
-                <div className="mb-6 p-4 bg-blue-500/10 border border-blue-500/30 rounded-xl flex items-start gap-3">
-                  <span className="text-blue-400 font-bold text-lg flex-shrink-0">✓</span>
-                  <p className="text-slate-300">
-                    <span className="text-blue-400 font-semibold">Outcome: </span>
-                    {project.outcome}
-                  </p>
-                </div>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag, tagIdx) => (
-                    <motion.span
-                      key={tagIdx}
-                      whileHover={{ scale: 1.05 }}
-                      className="px-3 py-1.5 bg-blue-500/15 text-blue-300 border border-blue-500/40 rounded-full text-sm font-medium hover:bg-blue-500/25 transition-colors cursor-default"
-                    >
-                      {tag}
-                    </motion.span>
+                {/* Highlights */}
+                <ul className="mb-8 space-y-2">
+                  {project.highlights.map((h, hIdx) => (
+                    <li key={hIdx} className="flex items-start gap-2 text-sm text-zinc-400">
+                      <span className="text-orange-500 font-bold shrink-0 mt-0.5">›</span>
+                      <span>{h}</span>
+                    </li>
                   ))}
-                </div>
+                </ul>
+              </div>
+
+              {/* Tags */}
+              <div className="relative z-10 flex flex-wrap gap-2 mt-auto pt-6 border-t border-zinc-800">
+                {project.tags.map((tag, tagIdx) => (
+                  <span
+                    key={tagIdx}
+                    className="px-2.5 py-1 rounded text-[11px] font-semibold bg-zinc-800/50 text-zinc-300 border border-zinc-700/50"
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
             </motion.div>
           ))}
-        </motion.div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-16 text-center"
-        >
         </motion.div>
       </div>
     </section>

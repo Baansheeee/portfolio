@@ -1,140 +1,159 @@
 'use client';
 
-import { motion } from 'framer-motion'
-import { FaGithub, FaLinkedin, FaBars, FaTimes } from 'react-icons/fa'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion'
+import { HiMenu, HiX } from 'react-icons/hi'
 
-export default function Navigation({ scrollToSection, activeSection }) {
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const navItems = ['home', 'about', 'projects', 'experience', 'contact']
+export default function Navigation() {
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [activeSection, setActiveSection] = useState('home')
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { scrollY } = useScroll()
 
-  const toggleMobile = () => setMobileOpen(!mobileOpen)
+  // Track scroll for navbar background
+  useMotionValueEvent(scrollY, 'change', (latest) => {
+    setIsScrolled(latest > 50)
+  })
 
-  const handleNavClick = (item) => {
-    scrollToSection(item)
-    setMobileOpen(false)
+  const navLinks = [
+    { name: 'Home', href: '#home' },
+    { name: 'About me', href: '#about' },
+    { name: 'Skills', href: '#skills' },
+    { name: 'Portfolio', href: '#projects' },
+    { name: 'Contact me', href: '#contact' },
+  ]
+
+  // Track active section using Intersection Observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id)
+          }
+        })
+      },
+      { rootMargin: '-40% 0px -40% 0px' }
+    )
+
+    const sections = navLinks.map((link) => document.getElementById(link.href.substring(1)))
+    sections.forEach((s) => s && observer.observe(s))
+
+    return () => sections.forEach((s) => s && observer.unobserve(s))
+  }, [])
+
+  const scrollTo = (href) => {
+    setIsMobileMenuOpen(false)
+    const element = document.querySelector(href)
+    if (element) {
+      const offsetTop = element.getBoundingClientRect().top + window.scrollY - 80
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth',
+      })
+    }
   }
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-slate-700/30"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-        {/* Logo */}
-        <motion.button
-          whileHover={{ scale: 1.08 }}
-          onClick={() => handleNavClick('home')}
-          className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent cursor-pointer hover:opacity-80 transition-opacity"
-        >
-          Shayan Ahmed
-        </motion.button>
+    <>
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? 'bg-[#18181b]/90 backdrop-blur-md border-b border-zinc-800 py-4 shadow-lg'
+            : 'bg-transparent py-6'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
+          {/* Logo */}
+          <button
+            onClick={() => scrollTo('#home')}
+            className="text-2xl font-bold tracking-wider text-orange-600 focus:outline-none"
+          >
+            SHAYAN AHMED
+          </button>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-12">
-          {navItems.map((item) => (
-            <motion.button
-              key={item}
-              onClick={() => handleNavClick(item)}
-              className={`capitalize text-sm font-medium transition-colors relative ${
-                activeSection === item
-                  ? 'text-blue-400'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-              whileHover={{ scale: 1.05 }}
-            >
-              {item}
-              {activeSection === item && (
-                <motion.div
-                  layoutId="underline"
-                  className="absolute bottom-[-4px] left-0 right-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400"
-                />
-              )}
-            </motion.button>
-          ))}
-        </div>
-
-        {/* Social Links & Mobile Toggle */}
-        <div className="flex items-center gap-4">
-          <div className="hidden sm:flex items-center gap-4">
-            <motion.a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.15 }}
-              className="text-slate-400 hover:text-blue-400 transition-colors"
-            >
-              <FaGithub size={18} />
-            </motion.a>
-            <motion.a
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.15 }}
-              className="text-slate-400 hover:text-blue-400 transition-colors"
-            >
-              <FaLinkedin size={18} />
-            </motion.a>
+          {/* Desktop Links */}
+          <div className="hidden md:flex items-center gap-8 lg:gap-12">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.substring(1)
+              return (
+                <button
+                  key={link.name}
+                  onClick={() => scrollTo(link.href)}
+                  className={`relative text-sm font-medium transition-colors duration-300 ${
+                    isActive ? 'text-orange-500' : 'text-zinc-400 hover:text-zinc-200'
+                  }`}
+                >
+                  {link.name}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeNav"
+                      className="absolute -bottom-2 left-0 right-0 h-[2px] bg-orange-500 rounded-full"
+                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                </button>
+              )
+            })}
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* CTA Button */}
+          <div className="hidden md:block">
+            <button
+              onClick={() => scrollTo('#contact')}
+              className="px-6 py-2.5 bg-orange-600 hover:bg-orange-500 text-white text-sm font-semibold rounded-md transition-all shadow-[0_0_15px_rgba(234,88,12,0.3)] hover:shadow-[0_0_25px_rgba(234,88,12,0.5)] transform hover:-translate-y-0.5"
+            >
+              Hire Me
+            </button>
+          </div>
+
+          {/* Mobile Menu Toggle */}
           <button
-            onClick={toggleMobile}
-            className="md:hidden p-2 hover:bg-slate-800/50 rounded-lg transition-colors"
+            className="md:hidden text-zinc-300 hover:text-white p-2"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {mobileOpen ? (
-              <FaTimes className="text-white" size={20} />
-            ) : (
-              <FaBars className="text-white" size={20} />
-            )}
+            {isMobileMenuOpen ? <HiX size={24} /> : <HiMenu size={24} />}
           </button>
         </div>
-      </div>
+      </motion.nav>
 
-      {/* Mobile Menu */}
-      <motion.div
-        initial={{ opacity: 0, height: 0 }}
-        animate={{ opacity: mobileOpen ? 1 : 0, height: mobileOpen ? 'auto' : 0 }}
-        transition={{ duration: 0.3 }}
-        className="md:hidden overflow-hidden border-t border-slate-700/30"
-      >
-        <div className="px-4 py-6 space-y-4 bg-slate-900/50 backdrop-blur-sm">
-          {navItems.map((item) => (
-            <motion.button
-              key={item}
-              onClick={() => handleNavClick(item)}
-              className={`block w-full text-left capitalize text-sm font-medium py-2 px-4 rounded-lg transition-colors ${
-                activeSection === item
-                  ? 'bg-blue-500/20 text-blue-400 border border-blue-400/50'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
-              }`}
-              whileHover={{ x: 4 }}
-            >
-              {item}
-            </motion.button>
-          ))}
-          <div className="flex gap-4 pt-4 border-t border-slate-700/30">
-            <motion.a
-              href="https://github.com/Baansheeee?tab=repositories"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 py-2 px-4 bg-slate-800/50 text-slate-300 rounded-lg text-center hover:bg-slate-700 transition-colors"
-            >
-              GitHub
-            </motion.a>
-            <motion.a
-              href="https://www.linkedin.com/in/shayan-ahmed-30173b325"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 py-2 px-4 bg-slate-800/50 text-slate-300 rounded-lg text-center hover:bg-slate-700 transition-colors"
-            >
-              LinkedIn
-            </motion.a>
-          </div>
-        </div>
-      </motion.div>
-    </motion.nav>
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-x-0 top-[72px] bg-[#18181b]/95 backdrop-blur-lg border-b border-zinc-800 z-40 md:hidden"
+          >
+            <div className="flex flex-col py-6 px-6 gap-4">
+              {navLinks.map((link) => (
+                <button
+                  key={link.name}
+                  onClick={() => scrollTo(link.href)}
+                  className={`text-left text-lg font-medium py-2 border-b border-zinc-800/50 ${
+                    activeSection === link.href.substring(1)
+                      ? 'text-orange-500'
+                      : 'text-zinc-400'
+                  }`}
+                >
+                  {link.name}
+                </button>
+              ))}
+              <button
+                onClick={() => scrollTo('#contact')}
+                className="mt-4 px-6 py-3 bg-orange-600 text-white font-semibold rounded-md text-center"
+              >
+                Hire Me
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   )
 }
